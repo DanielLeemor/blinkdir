@@ -24,42 +24,23 @@
   --radius-xl: 28px;
 }
 
+/* Global Vars are handled by Tailwind v4 @theme */
+
 :root {
-  /* Color Palette - Dark Theme with Vibrant Accents */
+  /* No duplicates needed here if they are in @theme, but some we keep for runtime dynamic usage if needed */
+  /* Re-declaring for explicit usage or non-tailwind contexts */
   --bg-primary: #0a0a0f;
-  --bg-secondary: #12121a;
-  --bg-tertiary: #1a1a25;
   --bg-card: rgba(26, 26, 37, 0.8);
   --bg-glass: rgba(255, 255, 255, 0.05);
 
-  /* Solana-inspired Gradient */
+  /* Gradients */
   --gradient-primary: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
-  --gradient-secondary: linear-gradient(135deg, #14F195 0%, #00C2FF 100%);
-  --gradient-accent: linear-gradient(135deg, #9945FF 0%, #FB5AFF 50%, #14F195 100%);
 
-  /* Text Colors */
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --text-muted: rgba(255, 255, 255, 0.5);
-
-  /* Accent Colors */
-  --solana-purple: #9945FF;
-  --solana-green: #14F195;
-  --solana-blue: #00C2FF;
-
-  /* Shadows */
-  --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 60px rgba(153, 69, 255, 0.3);
-
-  /* Spacing */
-  --section-padding: 100px;
+  /* Container */
   --container-max: 1200px;
 
-  /* Border Radius */
-  --radius-sm: 8px;
+  /* Radius */
   --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
 }
 
 * {
@@ -192,20 +173,27 @@ body {
   position: relative;
   width: 100%;
   max-width: 700px;
-  /* Wider */
   margin: 0 auto 3rem auto;
 }
 
 .search-input {
   width: 100%;
-  padding: 1rem 4rem 1rem 1.5rem;
-  /* Right padding for icon button */
+  padding: 0.875rem 3.5rem 0.875rem 1rem;
+  /* Mobile first padding */
   background: white;
   border: none;
   border-radius: 99px;
   color: #333;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  /* Mobile font */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 640px) {
+  .search-input {
+    padding: 1rem 4rem 1rem 1.5rem;
+    font-size: 1.1rem;
+  }
 }
 
 .search-input:focus {
@@ -220,7 +208,6 @@ body {
   bottom: 6px;
   width: 50px;
   background: #00C2FF;
-  /* cyan blue */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -236,16 +223,25 @@ body {
 
 /* FILTER BUTTONS POLISH */
 .filter-btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 1.5rem;
+  /* Larger touch target */
+  min-height: 44px;
+  /* Accessibility */
   border-radius: 12px;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   letter-spacing: 0.02em;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
   color: #A0A0A0;
   transition: all 0.2s ease;
   cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .filter-btn {
+    font-size: 0.95rem;
+  }
 }
 
 .filter-btn:hover {
@@ -263,8 +259,8 @@ body {
 
 /* HERO TEXT POLISH */
 .hero-title-main {
-  font-size: 3.5rem;
-  /* Reduced from 4.5rem */
+  font-size: 2rem;
+  /* Mobile first */
   line-height: 1.1;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -272,13 +268,49 @@ body {
   text-align: center;
 }
 
+@media (min-width: 640px) {
+  .hero-title-main {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-title-main {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-title-main {
+    font-size: 3.5rem;
+  }
+}
+
 .hero-subtitle-main {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
+  /* Slightly smaller for mobile */
   color: #c0c0c0;
   line-height: 1.6;
   max-width: 700px;
   margin: 0 auto 3rem auto;
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .hero-subtitle-main {
+    font-size: 1.25rem;
+  }
+}
+
+/* Accessibility Focus Styles */
+*:focus-visible {
+  outline: 2px solid var(--color-solana-purple);
+  outline-offset: 2px;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-solana-blue);
+  outline-offset: 2px;
 }
 
 /* Nav Link Polish */

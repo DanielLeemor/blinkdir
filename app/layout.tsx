@@ -1,10 +1,17 @@
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "BlinkDir | Discover the Best Solana Actions & Blinks",
   description: "The premier directory for Solana Blinks. Discover, submit, and explore the best blockchain links in the ecosystem.",
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 };
 
 export default function RootLayout({

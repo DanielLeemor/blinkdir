@@ -1,7 +1,9 @@
+"use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Blink } from '@/lib/types';
-import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 interface BlinkCardProps {
     blink: Blink;
@@ -9,84 +11,75 @@ interface BlinkCardProps {
 }
 
 export default function BlinkCard({ blink, priority = false }: BlinkCardProps) {
-    // Use screenshot if available, otherwise fallback to icon, otherwise generic placeholder
-    const imageSrc = blink.screenshot_url || blink.icon_url || '/placeholder.png'; // Need a placeholder asset later
+    const [imageError, setImageError] = useState(false);
 
     return (
-        <div className={cn(
-            "card p-0 flex flex-col h-full overflow-hidden group transition-all duration-300 hover:translate-y-[-4px]",
-            blink.featured ? "border-purple-500/30 shadow-[0_0_20px_rgba(153,69,255,0.1)]" : "border-white/10 hover:border-purple-500/30"
-        )}>
-            {/* Image Section */}
-            <div className="relative aspect-video bg-gray-900 overflow-hidden">
-                {blink.featured && (
-                    <div className="absolute top-2 right-2 z-10 bg-purple-600 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider shadow-lg">
-                        Featured
-                    </div>
-                )}
+        <Link href={`/blink/${blink.id}`} className="block h-full">
+            <div className="card h-full flex flex-col overflow-hidden hover:scale-[1.02] transition-transform duration-300 border border-white/5 hover:border-white/10 group">
+                {/* Image Section */}
+                <div className="relative aspect-video w-full bg-black/40 overflow-hidden">
+                    {blink.screenshot_url && !imageError ? (
+                        <Image
+                            src={blink.screenshot_url}
+                            alt={blink.name}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            priority={priority}
+                            onError={() => setImageError(true)}
+                        />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-900 to-black text-white/20">
+                            <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M13 10V3L4 14h7v7l9-11h-7z" className="hidden" />
+                            </svg>
+                        </div>
+                    )}
 
-                {/* We use standard img for MVP simplicity, migrate to next/image later for optimization */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                    src={imageSrc}
-                    alt={blink.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                        // Fallback on error
-                        (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/1a1a25/FFF?text=Blink';
-                    }}
-                />
-
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a25] to-transparent opacity-60" />
-
-                {/* Icon Overlay */}
-                <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                    {blink.icon_url && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={blink.icon_url} alt="" className="w-8 h-8 rounded-lg bg-black/50 backdrop-blur-md border border-white/10" />
+                    {/* Featured Badge */}
+                    {blink.featured && (
+                        <div className="absolute top-3 right-3 bg-yellow-500/90 text-black text-xs font-bold px-2 py-1 rounded shadow-lg backdrop-blur-sm z-10">
+                            Featured
+                        </div>
                     )}
                 </div>
-            </div>
 
-            {/* Content Section */}
-            <div className="p-5 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-bold text-lg leading-tight text-white group-hover:text-purple-400 transition-colors">
-                        <Link href={`/blink/${blink.id}`} className="focus:outline-none">
-                            <span className="absolute inset-0" aria-hidden="true" />
-                            {blink.name}
-                        </Link>
+                {/* Content Section */}
+                <div className="p-5 flex flex-col flex-grow relative">
+                    {/* Category Tag */}
+                    <div className="mb-3">
+                        <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/5 text-gray-400 border border-white/5 capitalize">
+                            {blink.category}
+                        </span>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-white mb-2 leading-tight group-hover:text-[#14F195] transition-colors line-clamp-1">
+                        {blink.name}
                     </h3>
-                </div>
 
-                <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
-                    {blink.description}
-                </p>
+                    <p className="text-gray-400 text-sm line-clamp-2 mb-4 flex-grow">
+                        {blink.description || "No description provided."}
+                    </p>
 
-                {/* Footer info */}
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5 relative z-10">
-                    <div className="flex items-center gap-2">
-                        <span className={cn(
-                            "text-[10px] px-2 py-0.5 rounded-full border",
-                            blink.category === 'nft' && "border-green-500/30 text-green-400 bg-green-500/10",
-                            blink.category === 'defi' && "border-blue-500/30 text-blue-400 bg-blue-500/10",
-                            blink.category === 'gaming' && "border-orange-500/30 text-orange-400 bg-orange-500/10",
-                            blink.category === 'social' && "border-pink-500/30 text-pink-400 bg-pink-500/10",
-                            blink.category === 'utilities' && "border-gray-500/30 text-gray-400 bg-gray-500/10",
-                            blink.category === 'other' && "border-gray-500/30 text-gray-400 bg-gray-500/10",
-                        )}>
-                            {blink.category.toUpperCase()}
-                        </span>
-                    </div>
-
-                    <div className="flex items-center gap-3 text-xs text-gray-500 font-mono">
-                        <span className="flex items-center gap-1">
-                            👁️ {blink.views > 999 ? (blink.views / 1000).toFixed(1) + 'k' : blink.views}
-                        </span>
+                    {/* Footer Info */}
+                    <div className="flex items-center justify-between text-xs text-gray-500 mt-auto pt-4 border-t border-white/5">
+                        <div className="flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-500/50"></span>
+                            {blink.source === 'dial.to' ? 'Dial.to' : 'Submitted'}
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="flex items-center gap-1" title="Views">
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                {blink.views.toLocaleString()}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
