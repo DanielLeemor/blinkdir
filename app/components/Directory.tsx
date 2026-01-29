@@ -60,6 +60,8 @@ export default function Directory() {
         };
 
         fetchBlinks();
+        // Note: blinks.length intentionally NOT in deps to avoid re-fetch loops
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramsString, page]);
 
     if (!loading && !error && blinks.length === 0) {

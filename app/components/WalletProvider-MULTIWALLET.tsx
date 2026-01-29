@@ -30,9 +30,9 @@ interface WalletProviderProps {
     endpoint?: string;
 }
 
-export function WalletProvider({
-    children,
-    endpoint = 'https://api.mainnet-beta.solana.com'
+export function WalletProvider({ 
+    children, 
+    endpoint = 'https://api.mainnet-beta.solana.com' 
 }: WalletProviderProps) {
     const [publicKey, setPublicKey] = useState<PublicKey | null>(null);
     const [connected, setConnected] = useState(false);
@@ -90,7 +90,7 @@ export function WalletProvider({
 
     const connect = async (preferredType?: WalletType) => {
         if (connecting) return;
-
+        
         setConnecting(true);
         try {
             const { solana, solflare, backpack } = window as any;
@@ -147,7 +147,7 @@ export function WalletProvider({
 
     const disconnect = () => {
         const { solana, solflare, backpack } = window as any;
-
+        
         if (walletType === 'phantom' && solana) {
             solana.disconnect();
         } else if (walletType === 'solflare' && solflare) {
@@ -163,7 +163,7 @@ export function WalletProvider({
 
     const signAndSendTransaction = async (transaction: Transaction | VersionedTransaction): Promise<string> => {
         const { solana, solflare, backpack } = window as any;
-
+        
         if (!publicKey) {
             throw new Error('Wallet not connected');
         }
@@ -182,13 +182,13 @@ export function WalletProvider({
             } else {
                 throw new Error('Wallet not available');
             }
-
+            
             // Send the transaction
             const signature = await connection.sendRawTransaction(signedTransaction.serialize());
-
+            
             // Confirm the transaction
             await connection.confirmTransaction(signature, 'confirmed');
-
+            
             return signature;
         } catch (error) {
             console.error('Transaction failed:', error);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useWallet } from './WalletProvider';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function WalletButton() {
     const { publicKey, connected, connecting, walletType, connect, disconnect } = useWallet();
@@ -48,21 +48,6 @@ export default function WalletButton() {
         }
     };
 
-    // Close wallet picker on ESC key
-    useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                setShowWalletPicker(false);
-                setShowMenu(false);
-            }
-        };
-        
-        if (showWalletPicker || showMenu) {
-            document.addEventListener('keydown', handleEscape);
-            return () => document.removeEventListener('keydown', handleEscape);
-        }
-    }, [showWalletPicker, showMenu]);
-
     return (
         <div className="relative">
             {!connected ? (
@@ -98,23 +83,12 @@ export default function WalletButton() {
 
             {/* Wallet Picker Modal */}
             {showWalletPicker && (
-                <div 
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                    onClick={(e) => {
-                        // Close if clicking the backdrop
-                        if (e.target === e.currentTarget) {
-                            setShowWalletPicker(false);
-                        }
-                    }}
-                >
-                    <div
-                        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-                        onClick={() => setShowWalletPicker(false)}
-                    />
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                     <div 
-                        className="relative bg-[#1a1a25] border border-white/10 rounded-2xl p-6 max-w-sm w-full shadow-2xl z-10"
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                        className="absolute inset-0 bg-black/80 backdrop-blur-sm" 
+                        onClick={() => setShowWalletPicker(false)} 
+                    />
+                    <div className="relative bg-[#1a1a25] border border-white/10 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-xl font-bold text-white">Select Wallet</h3>
                             <button
@@ -126,7 +100,7 @@ export default function WalletButton() {
                                 </svg>
                             </button>
                         </div>
-
+                        
                         <div className="space-y-3">
                             {/* Phantom */}
                             <button

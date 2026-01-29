@@ -23,7 +23,9 @@ export default function SearchBar() {
         }, 300);
 
         return () => clearTimeout(timeoutId);
-    }, [term, searchParams, pathname, router]);
+        // Note: searchParams NOT in deps to avoid infinite loop
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [term, pathname, router]);
 
     return (
         <div className="search-container">

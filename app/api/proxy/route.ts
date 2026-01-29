@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
                 'Accept': 'application/json',
                 'User-Agent': 'BlinkDir-Bot/1.0', // Polite identification
             },
-            next: { revalidate: 60 }
+            cache: 'force-cache' // Cache responses to prevent repeated requests
         });
 
         if (!response.ok) {

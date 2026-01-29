@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useWallet } from "./WalletProvider";
 import { Transaction, VersionedTransaction } from "@solana/web3.js";
 import TransactionPreviewModal from "./TransactionPreviewModal";
@@ -128,9 +128,19 @@ export default function BlinkActionPreview({ url }: BlinkActionPreviewProps) {
     const [pendingTransaction, setPendingTransaction] = useState<Transaction | VersionedTransaction | null>(null);
     const [currentAction, setCurrentAction] = useState<ActionLink | null>(null);
     const [txSignature, setTxSignature] = useState<string>('');
+    
+    // Prevent duplicate fetches
+    const fetchingRef = useRef(false);
+    const fetchedUrlRef = useRef<string | null>(null);
 
     useEffect(() => {
+        // Skip if already fetching or already fetched this URL
+        if (fetchingRef.current || fetchedUrlRef.current === url) {
+            return;
+        }
+
         const fetchActionData = async () => {
+            fetchingRef.current = true;
             setLoading(true);
             setError(null);
 
@@ -160,6 +170,7 @@ export default function BlinkActionPreview({ url }: BlinkActionPreviewProps) {
                     if (actionRes.ok) {
                         const data = await actionRes.json();
                         setActionData(data);
+                        fetchedUrlRef.current = url; // Mark as fetched
                     } else {
                         throw new Error('Failed to load specific action metadata');
                     }
@@ -171,6 +182,7 @@ export default function BlinkActionPreview({ url }: BlinkActionPreviewProps) {
                         description: actionsJson.description || '',
                         links: actionsJson.links
                     });
+                    fetchedUrlRef.current = url; // Mark as fetched
                 } else {
                     throw new Error('No matching action found for this URL');
                 }
@@ -179,6 +191,7 @@ export default function BlinkActionPreview({ url }: BlinkActionPreviewProps) {
                 setError('Could not resolve Action metadata');
             } finally {
                 setLoading(false);
+                fetchingRef.current = false;
             }
         };
 
@@ -454,6 +467,3 @@ export default function BlinkActionPreview({ url }: BlinkActionPreviewProps) {
         </>
     );
 }
-
-
-
