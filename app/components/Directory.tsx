@@ -17,17 +17,23 @@ export default function Directory() {
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
 
+    const paramsString = searchParams.toString();
+
     // Reset page when search/category filters change
     useEffect(() => {
         setPage(1);
-    }, [searchParams]);
+    }, [paramsString]);
 
     useEffect(() => {
         const fetchBlinks = async () => {
-            setLoading(true);
+            // Only show full loading state (skeletons) if we have no data yet
+            if (blinks.length === 0) {
+                setLoading(true);
+            }
             setError(null);
+
             try {
-                const currentParams = new URLSearchParams(searchParams.toString());
+                const currentParams = new URLSearchParams(paramsString);
                 const offset = (page - 1) * ITEMS_PER_PAGE;
 
                 currentParams.set('limit', ITEMS_PER_PAGE.toString());
@@ -54,7 +60,7 @@ export default function Directory() {
         };
 
         fetchBlinks();
-    }, [searchParams, page]);
+    }, [paramsString, page]);
 
     if (!loading && !error && blinks.length === 0) {
         return (
@@ -107,13 +113,13 @@ export default function Directory() {
                 </div>
 
                 <div className="flex justify-between items-center mb-6 px-2">
-                    <h2 className="text-xl font-semibold">
-                        {loading ? 'Searching...' : `${total} Blinks Found`}
+                    <h2 className="text-xl font-semibold text-white">
+                        {total} Blinks Found
                     </h2>
                 </div>
 
-                {loading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+                {loading && blinks.length === 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {[1, 2, 3, 4, 5, 6].map(i => (
                             <div key={i} className="card h-[380px] overflow-hidden border border-white/5 bg-[#12121a]">
                                 <div className="aspect-video bg-white/5" />

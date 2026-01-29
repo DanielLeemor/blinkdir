@@ -15,11 +15,11 @@ export default function Home() {
         <section className="hero w-full pt-20 pb-12 flex flex-col items-center justify-center text-center">
           <div className="container w-full px-4 flex flex-col items-center">
             <div className="max-w-3xl w-full mx-auto space-y-6">
-              <h1>
+              <h1 className="text-white">
                 <span className="hero-title-main block">Discover the Best</span>
-                <span className="hero-title-main block gradient-text">Solana Actions</span>
+                <span className="hero-title-main block text-gradient text-white">Solana Actions</span>
               </h1>
-              <p className="hero-subtitle-main mx-auto">
+              <p className="hero-subtitle-main mx-auto text-gray-300">
                 Explore, search, and submit the most useful Blinks in the ecosystem.
                 Find everything from NFT mints to DeFi swaps in one place.
               </p>

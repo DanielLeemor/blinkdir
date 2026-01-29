@@ -1,5 +1,6 @@
 
 import Link from 'next/link';
+import WalletButton from './WalletButton';
 
 export default function Header() {
     return (
@@ -30,11 +31,14 @@ export default function Header() {
                             <path d="M22 6L23.5 9L25 6" stroke="#14F195" strokeWidth="2" strokeLinecap="round" />
                         </svg>
                     </div>
-                    <span className="logo-text font-bold text-xl tracking-tight">BlinkDir</span>
+                    <span className="logo-text font-bold text-xl tracking-tight text-white">BlinkDir</span>
                 </Link>
-                <Link href="/submit" className="btn-primary py-2 px-4 text-sm whitespace-nowrap">
-                    Submit Blink
-                </Link>
+                <div className="flex items-center gap-3">
+                    <WalletButton />
+                    <Link href="/submit" className="btn-primary py-2 px-4 text-sm whitespace-nowrap">
+                        Submit Blink
+                    </Link>
+                </div>
             </div>
         </nav>
     );

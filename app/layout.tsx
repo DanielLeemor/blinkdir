@@ -1,6 +1,7 @@
 
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { WalletProvider } from "./components/WalletProvider";
 
 export const metadata: Metadata = {
   title: "BlinkDir | Discover the Best Solana Actions & Blinks",
@@ -26,8 +27,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
-        <div className="bg-gradient"></div>
-        {children}
+        <WalletProvider>
+          <div className="bg-gradient"></div>
+          {children}
+        </WalletProvider>
       </body>
     </html>
   );
