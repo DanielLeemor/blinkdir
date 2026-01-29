@@ -4,7 +4,7 @@ import WalletButton from './WalletButton';
 
 export default function Header() {
     return (
-        <nav className="navbar border-b border-white/5 bg-opacity-50 backdrop-blur-md sticky top-0 z-50">
+        <nav className="navbar border-b border-white/5 bg-opacity-50 backdrop-blur-md sticky top-0 z-40">
             <div className="container flex items-center justify-between h-20">
                 <Link href="/" className="logo flex items-center gap-2 group">
                     <div className="w-8 h-8 flex items-center justify-center">

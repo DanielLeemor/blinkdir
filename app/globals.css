@@ -338,10 +338,14 @@ button:focus-visible {
   background: var(--gradient-primary);
   border: none;
   border-radius: var(--radius-md);
-  color: white;
+  color: white !important;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
 }
 
 .btn-primary:hover {
