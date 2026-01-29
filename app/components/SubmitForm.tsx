@@ -91,7 +91,7 @@ export default function SubmitForm() {
                         {...register('url')}
                         type="url"
                         placeholder="https://jup.ag/swap/SOL-USDC"
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all placeholder:text-gray-600"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all placeholder:text-gray-500"
                     />
                     <p className="text-xs text-gray-500 mt-1">
                         We will automatically fetch the icon and title to verify it works.
@@ -110,7 +110,7 @@ export default function SubmitForm() {
                         {...register('name')}
                         type="text"
                         placeholder="Jupiter Swap"
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all placeholder:text-gray-500"
                     />
                     {errors.name && <p className="text-red-400 text-sm">{errors.name.message}</p>}
                 </div>
@@ -121,7 +121,7 @@ export default function SubmitForm() {
                     </label>
                     <select
                         {...register('category')}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all appearance-none"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all appearance-none"
                     >
                         {CATEGORIES.map(cat => (
                             <option key={cat.slug} value={cat.slug} className="bg-[#1a1a25]">
@@ -142,7 +142,7 @@ export default function SubmitForm() {
                     {...register('description')}
                     rows={4}
                     placeholder="Briefly describe what this Blink allows users to do..."
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all placeholder:text-gray-500"
                 />
                 {errors.description && <p className="text-red-400 text-sm">{errors.description.message}</p>}
             </div>
@@ -157,7 +157,7 @@ export default function SubmitForm() {
                             {...register('creator_twitter')}
                             type="text"
                             placeholder="@username"
-                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all"
+                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all placeholder:text-gray-500"
                         />
                     </div>
                     <div className="space-y-2">
@@ -166,7 +166,7 @@ export default function SubmitForm() {
                             {...register('creator_email')}
                             type="email"
                             placeholder="For approval notifications"
-                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all"
+                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all placeholder:text-gray-500"
                         />
                     </div>
                 </div>
